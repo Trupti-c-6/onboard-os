@@ -3,7 +3,7 @@ import { Card, CardHeader } from "@/components/ui/card";
 
 export default function DashboardLoading() {
   return (
-    <div className="min-h-screen bg-slate-50 p-8">
+    <div className="min-h-screen bg-background p-8">
       <div className="mx-auto max-w-4xl">
         <Skeleton className="mb-6 h-8 w-64" />
         <div className="grid grid-cols-2 gap-4 sm:grid-cols-4">

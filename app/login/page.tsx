@@ -9,12 +9,10 @@ import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/com
 const initialState: LoginState = { success: false, message: "" };
 
 export default function LoginPage() {
-  // useActionState wires our form directly to the sendMagicLink Server Action.
-  // `state` holds whatever sendMagicLink last returned; `formAction` goes on the <form>.
   const [state, formAction, isPending] = useActionState(sendMagicLink, initialState);
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-slate-50 px-4">
+    <div className="flex min-h-screen items-center justify-center bg-background px-4">
       <Card className="w-full max-w-sm">
         <CardHeader>
           <CardTitle>Welcome to OnboardOS</CardTitle>
@@ -36,11 +34,7 @@ export default function LoginPage() {
             </Button>
           </form>
           {state.message && (
-            <p
-              className={`mt-4 text-sm ${
-                state.success ? "text-green-600" : "text-red-600"
-              }`}
-            >
+            <p className={`mt-4 text-sm ${state.success ? "text-emerald-400" : "text-red-400"}`}>
               {state.message}
             </p>
           )}

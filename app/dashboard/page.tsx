@@ -16,8 +16,6 @@ export default async function DashboardPage() {
     .eq("id", user.id)
     .single();
 
-  // Real counts — this replaces the earlier placeholder page. All queries
-  // are scoped by RLS to the logged-in provider's own organization.
   const [{ count: templateCount }, { count: pendingReviewCount }, { count: activeClientCount }, { count: completedCount }] =
     await Promise.all([
       supabase.from("workflow_templates").select("id", { count: "exact", head: true }),
@@ -43,17 +41,17 @@ export default async function DashboardPage() {
   ];
 
   return (
-    <div className="min-h-screen bg-slate-50 p-8">
-      <h1 className="text-2xl font-semibold text-slate-900">
+    <div className="min-h-screen bg-background p-8">
+      <h1 className="text-2xl font-semibold text-foreground">
         Welcome{profile?.full_name ? `, ${profile.full_name}` : ""} 👋
       </h1>
-      <p className="mt-1 text-sm text-slate-500">Logged in as {profile?.email}</p>
+      <p className="mt-1 text-sm text-muted-foreground">Logged in as {profile?.email}</p>
 
       <div className="mt-6 grid grid-cols-2 gap-4 sm:grid-cols-4">
         {stats.map((s) => (
           <Card key={s.label}>
             <CardHeader>
-              <s.icon className="mb-2 h-5 w-5 text-slate-400" />
+              <s.icon className="mb-2 h-5 w-5 text-muted-foreground" />
               <CardTitle className="text-2xl">{s.value}</CardTitle>
               <CardDescription>{s.label}</CardDescription>
             </CardHeader>

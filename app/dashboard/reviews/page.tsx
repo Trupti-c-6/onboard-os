@@ -31,10 +31,6 @@ export default async function ReviewsPage({
     .in("status", activeStatuses)
     .order("updated_at", { ascending: false });
 
-  // Search matches either name or email. PostgREST's .or() takes a raw
-  // filter string, so we escape the characters that have special meaning
-  // inside it (comma separates conditions, parens group them) to keep a
-  // user's search text from being interpreted as extra filter syntax.
   const trimmedQuery = q?.trim();
   if (trimmedQuery) {
     const escaped = trimmedQuery.replace(/[,()]/g, "");
@@ -44,9 +40,9 @@ export default async function ReviewsPage({
   const { data: instances } = await query;
 
   return (
-    <div className="min-h-screen bg-slate-50 p-8">
+    <div className="min-h-screen bg-background p-8">
       <div className="mx-auto max-w-2xl">
-        <h1 className="mb-6 text-2xl font-semibold text-slate-900">Review Queue</h1>
+        <h1 className="mb-6 text-2xl font-semibold text-foreground">Review Queue</h1>
 
         <ReviewFilters
           statusOptions={STATUS_OPTIONS}
@@ -57,7 +53,7 @@ export default async function ReviewsPage({
         {!instances || instances.length === 0 ? (
           <Card className="mt-4">
             <CardHeader className="items-center py-12 text-center">
-              <Inbox className="mb-3 h-10 w-10 text-slate-300" />
+              <Inbox className="mb-3 h-10 w-10 text-muted-foreground" />
               <CardTitle>{trimmedQuery || status ? "No matches" : "All caught up!"}</CardTitle>
               <CardDescription>
                 {trimmedQuery || status
@@ -70,13 +66,13 @@ export default async function ReviewsPage({
           <div className="mt-4 space-y-3">
             {instances.map((i) => (
               <Link key={i.id} href={`/dashboard/reviews/${i.id}`}>
-                <Card>
+                <Card className="transition-colors hover:border-border-subtle">
                   <CardHeader className="flex-row items-center justify-between space-y-0">
                     <div>
                       <CardTitle>{i.client_name}</CardTitle>
                       <CardDescription>{i.client_email}</CardDescription>
                     </div>
-                    <span className="rounded-full bg-amber-100 px-2 py-0.5 text-xs font-medium capitalize text-amber-700">
+                    <span className="rounded-full border border-amber-500/20 bg-amber-500/10 px-2 py-0.5 text-xs font-medium capitalize text-amber-400">
                       {i.status.replace("_", " ")}
                     </span>
                   </CardHeader>

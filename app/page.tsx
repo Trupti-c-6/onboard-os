@@ -96,12 +96,12 @@ export default function Home() {
             </Button>
 
             <Button
-  asChild
-  size="lg"
-  className="!border-slate-300 !bg-white !text-slate-900 !opacity-100 hover:!bg-slate-100 hover:!text-slate-900"
->
-  <Link href="#how-it-works">See how it works</Link>
-</Button>
+              asChild
+              size="lg"
+              className="!border-slate-300 !bg-white !text-slate-900 !opacity-100 hover:!bg-slate-100 hover:!text-slate-900"
+            >
+              <Link href="#how-it-works">See how it works</Link>
+            </Button>
           </div>
         </section>
 
@@ -149,7 +149,10 @@ export default function Home() {
 
           <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {CAPABILITIES.map(({ icon: Icon, title, description }) => (
-              <Card key={title} className="p-6">
+              <Card
+                key={title}
+                className="border-slate-200 bg-white p-6 text-slate-900"
+              >
                 <Icon className="h-6 w-6 text-slate-900" />
 
                 <h3 className="mt-4 text-base font-semibold text-slate-900">

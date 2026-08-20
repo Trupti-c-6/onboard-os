@@ -57,15 +57,15 @@ export function PortalStepCard({
   }
 
   return (
-    <div className="rounded-lg border border-slate-200 bg-white p-4">
+    <div className="rounded-xl border border-border bg-card p-4">
       <div className="mb-2 flex items-start justify-between gap-2">
         <div>
-          <h3 className="font-medium text-slate-900">
-            {step.title} {step.is_required && <span className="text-red-500">*</span>}
+          <h3 className="font-medium text-foreground">
+            {step.title} {step.is_required && <span className="text-red-400">*</span>}
           </h3>
-          {step.description && <p className="text-sm text-slate-500">{step.description}</p>}
+          {step.description && <p className="text-sm text-muted-foreground">{step.description}</p>}
         </div>
-        {isSaved && <CheckCircle2 className="h-5 w-5 shrink-0 text-green-500" />}
+        {isSaved && <CheckCircle2 className="h-5 w-5 shrink-0 text-emerald-400" />}
       </div>
 
       {step.type === "short_text" && (
@@ -89,19 +89,17 @@ export function PortalStepCard({
           stepId={step.id}
           validationRules={step.validation_rules}
           disabled={disabled}
-          existingFileName={
-            (submission?.value_json?.file_name as string | undefined) ?? undefined
-          }
+          existingFileName={(submission?.value_json?.file_name as string | undefined) ?? undefined}
           onSaved={onSaved}
         />
       )}
       {(step.type === "credential" || step.type === "e_sign") && (
-        <p className="text-sm text-slate-400">
+        <p className="text-sm text-muted-foreground">
           This step type isn&apos;t built yet — coming in a later milestone.
         </p>
       )}
 
-      {error && <p className="mt-2 text-sm text-red-600">{error}</p>}
+      {error && <p className="mt-2 text-sm text-red-400">{error}</p>}
 
       {!disabled && !NO_SAVE_BUTTON_TYPES.includes(step.type) && (
         <Button type="button" size="sm" className="mt-3" onClick={handleSave} disabled={saving}>

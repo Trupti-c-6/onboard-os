@@ -35,9 +35,6 @@ export default async function TemplatesPage({
     .order(column, { ascending });
 
   if (query.trim()) {
-    // Case-insensitive match on title only. Description isn't included —
-    // searching by what you'd actually recognize a template by (its name)
-    // keeps this predictable for a small template count, per the V1 scope.
     templatesQuery = templatesQuery.ilike("title", `%${query.trim()}%`);
   }
 
@@ -53,12 +50,12 @@ export default async function TemplatesPage({
   }));
 
   return (
-    <div className="min-h-screen bg-slate-50 p-8">
+    <div className="min-h-screen bg-background p-8">
       <div className="mx-auto max-w-6xl">
         <div className="mb-8 flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
           <div>
-            <h1 className="text-2xl font-semibold text-slate-900">Templates</h1>
-            <p className="mt-1 text-sm text-slate-500">
+            <h1 className="text-2xl font-semibold text-foreground">Templates</h1>
+            <p className="mt-1 text-sm text-muted-foreground">
               Reusable onboarding workflows for your client projects.
             </p>
           </div>
@@ -70,11 +67,11 @@ export default async function TemplatesPage({
         </div>
 
         {error ? (
-          <div className="flex flex-col items-center gap-3 rounded-lg border border-slate-200 bg-white py-16 text-center">
+          <div className="flex flex-col items-center gap-3 rounded-xl border border-border bg-card py-16 text-center">
             <AlertTriangle className="h-8 w-8 text-red-400" />
             <div>
-              <p className="font-medium text-slate-900">Templates couldn&apos;t be loaded.</p>
-              <p className="text-sm text-slate-500">Please try again.</p>
+              <p className="font-medium text-foreground">Templates couldn&apos;t be loaded.</p>
+              <p className="text-sm text-muted-foreground">Please try again.</p>
             </div>
             <Button asChild variant="outline" size="sm">
               <Link href="/dashboard/templates">Try again</Link>
@@ -84,11 +81,11 @@ export default async function TemplatesPage({
           query.trim() ? (
             <>
               <TemplateToolbar query={query} sort={sortKey} />
-              <div className="flex flex-col items-center gap-3 rounded-lg border border-slate-200 bg-white py-16 text-center">
-                <SearchX className="h-8 w-8 text-slate-300" />
+              <div className="flex flex-col items-center gap-3 rounded-xl border border-border bg-card py-16 text-center">
+                <SearchX className="h-8 w-8 text-muted-foreground" />
                 <div>
-                  <p className="font-medium text-slate-900">No templates found</p>
-                  <p className="text-sm text-slate-500">Try a different template name.</p>
+                  <p className="font-medium text-foreground">No templates found</p>
+                  <p className="text-sm text-muted-foreground">Try a different template name.</p>
                 </div>
                 <Button asChild variant="outline" size="sm">
                   <Link href="/dashboard/templates">Clear search</Link>
@@ -96,11 +93,11 @@ export default async function TemplatesPage({
               </div>
             </>
           ) : (
-            <div className="flex flex-col items-center gap-3 rounded-lg border border-dashed border-slate-300 bg-white py-20 text-center">
-              <FileStack className="h-10 w-10 text-slate-300" />
+            <div className="flex flex-col items-center gap-3 rounded-xl border border-dashed border-border bg-card py-20 text-center">
+              <FileStack className="h-10 w-10 text-muted-foreground" />
               <div>
-                <p className="text-lg font-medium text-slate-900">No templates yet</p>
-                <p className="mt-1 max-w-sm text-sm text-slate-500">
+                <p className="text-lg font-medium text-foreground">No templates yet</p>
+                <p className="mt-1 max-w-sm text-sm text-muted-foreground">
                   Create your first onboarding workflow and reuse it for every client.
                 </p>
               </div>
@@ -114,7 +111,7 @@ export default async function TemplatesPage({
         ) : (
           <>
             <TemplateToolbar query={query} sort={sortKey} />
-            <div className="mb-3 text-sm text-slate-500">
+            <div className="mb-3 text-sm text-muted-foreground">
               {cards.length} {cards.length === 1 ? "template" : "templates"}
             </div>
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">

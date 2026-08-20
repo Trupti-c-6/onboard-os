@@ -29,25 +29,34 @@ export async function createClientInstance(
   });
 
   if (!parsed.success) {
-    return { success: false, message: parsed.error.issues[0].message };
+    return {
+      success: false,
+      message: parsed.error.issues[0].message,
+    };
   }
 
   const supabase = await createClient();
+
   const {
     data: { user },
   } = await supabase.auth.getUser();
-  if (!user) redirect("/login");
+
+  if (!user) {
+    redirect("/login");
+  }
 
   const { data: profile } = await supabase
     .from("profiles")
     .select("organization_id")
     .eq("id", user.id)
     .single();
-  if (!profile) redirect("/login");
 
-  // This insert relies on RLS (organization_id = get_auth_org_id()) to make
-  // sure a provider can only create instances under their own template/org —
-  // we're using the regular authenticated client here, not the service role.
+  if (!profile) {
+    redirect("/login");
+  }
+
+  // Create a NEW client instance every time.
+  // There is intentionally NO check for an existing client email.
   const { data: instance, error } = await supabase
     .from("client_instances")
     .insert({
@@ -60,14 +69,15 @@ export async function createClientInstance(
     .single();
 
   if (error || !instance) {
-    return { success: false, message: error?.message ?? "Could not create client link." };
+    return {
+      success: false,
+      message:
+        error?.message ?? "Could not create client link.",
+    };
   }
 
   const portalUrl = `${process.env.NEXT_PUBLIC_SITE_URL}/portal/${instance.access_token}`;
 
-  // Best-effort: auto-email the client their link. If this fails (bad
-  // Resend key, etc.) we still succeed and show the link so the provider
-  // can send it manually — email delivery should never block link creation.
   const { data: org } = await supabase
     .from("organizations")
     .select("name")
@@ -75,11 +85,34 @@ export async function createClientInstance(
     .single();
 
   try {
-    const { subject, html } = clientInvitedEmail(org?.name ?? "your provider", portalUrl);
-    await sendEmail(parsed.data.clientEmail, subject, html);
-  } catch {
-    // swallow — link is already created and shown below regardless
+    const { subject, html } = clientInvitedEmail(
+      org?.name ?? "your provider",
+      portalUrl
+    );
+
+    // Make every email unique so repeated sends to the same
+    // address are not grouped together by the email client.
+    const uniqueSubject = `${subject} — ${Date.now()}`;
+
+    const emailResult = await sendEmail(
+      parsed.data.clientEmail,
+      uniqueSubject,
+      html
+    );
+
+    if (!emailResult.success) {
+      console.error(
+        "Client invitation email was not sent successfully."
+      );
+    }
+  } catch (err) {
+    // Email failure must not prevent the client link from being created.
+    console.error("Failed to send client invitation email:", err);
   }
 
-  return { success: true, message: "Client link created and emailed!", portalUrl };
+  return {
+    success: true,
+    message: "Client link created and emailed!",
+    portalUrl,
+  };
 }

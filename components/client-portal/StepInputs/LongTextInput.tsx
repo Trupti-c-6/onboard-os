@@ -14,7 +14,7 @@ export function LongTextInput({
       disabled={disabled}
       rows={4}
       placeholder="Your answer"
-      className="w-full rounded-md border border-slate-200 px-3 py-2 text-sm disabled:opacity-50"
+      className="w-full rounded-lg border border-input-border bg-input px-3 py-2 text-sm text-foreground placeholder:text-placeholder focus-visible:outline-none focus-visible:border-primary focus-visible:ring-2 focus-visible:ring-primary/40 disabled:opacity-50"
     />
   );
 }

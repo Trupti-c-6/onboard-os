@@ -24,7 +24,7 @@ export function DuplicateTemplateButton({
         <button
           type="submit"
           disabled={isPending}
-          className="flex w-full items-center gap-2 px-3 py-1.5 text-left text-sm text-slate-700 hover:bg-slate-50 disabled:opacity-50"
+          className="flex w-full items-center gap-2 px-3 py-1.5 text-left text-sm text-foreground hover:bg-accent disabled:opacity-50"
         >
           <Copy className="h-3.5 w-3.5" />
           {isPending ? "Duplicating..." : "Duplicate"}
@@ -34,7 +34,7 @@ export function DuplicateTemplateButton({
       {state.message && (
         <p
           className={`px-3 pb-1 text-xs ${
-            state.success ? "text-green-600" : "text-red-600"
+            state.success ? "text-emerald-400" : "text-red-400"
           }`}
         >
           {state.message}

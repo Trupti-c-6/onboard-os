@@ -49,26 +49,28 @@ export function SubmissionReviewCard({
   const decided = submission.status === "approved" || submission.status === "rejected";
 
   return (
-    <div className="rounded-lg border border-slate-200 bg-white p-4">
+    <div className="rounded-xl border border-border bg-card p-4">
       <div className="mb-2 flex items-center justify-between">
-        <h3 className="font-medium text-slate-900">{submission.stepTitle}</h3>
+        <h3 className="font-medium text-foreground">{submission.stepTitle}</h3>
         {submission.status === "approved" && (
-          <span className="flex items-center gap-1 text-xs font-medium text-green-600">
+          <span className="flex items-center gap-1 text-xs font-medium text-emerald-400">
             <CheckCircle2 className="h-4 w-4" /> Approved
           </span>
         )}
         {submission.status === "rejected" && (
-          <span className="flex items-center gap-1 text-xs font-medium text-red-600">
+          <span className="flex items-center gap-1 text-xs font-medium text-red-400">
             <XCircle className="h-4 w-4" /> Rejected
           </span>
         )}
       </div>
 
       {submission.value_text && (
-        <p className="rounded-md bg-slate-50 p-3 text-sm text-slate-700">{submission.value_text}</p>
+        <p className="rounded-lg border border-border-subtle bg-secondary p-3 text-sm text-zinc-300">
+          {submission.value_text}
+        </p>
       )}
       {submission.value_json && !submission.assets.length && (
-        <p className="rounded-md bg-slate-50 p-3 text-sm text-slate-700">
+        <p className="rounded-lg border border-border-subtle bg-secondary p-3 text-sm text-zinc-300">
           {JSON.stringify(submission.value_json)}
         </p>
       )}
@@ -102,13 +104,13 @@ export function SubmissionReviewCard({
             required
             placeholder="What needs to change? (sent to the client)"
             rows={2}
-            className="w-full rounded-md border border-slate-200 px-3 py-2 text-sm"
+            className="w-full rounded-lg border border-input-border bg-input px-3 py-2 text-sm text-foreground placeholder:text-placeholder focus-visible:outline-none focus-visible:border-primary focus-visible:ring-2 focus-visible:ring-primary/40"
           />
           <Button type="submit" size="sm" variant="destructive" disabled={isRejecting}>
             {isRejecting ? "Sending..." : "Send rejection"}
           </Button>
           {rejectState.message && (
-            <p className={`text-sm ${rejectState.success ? "text-green-600" : "text-red-600"}`}>
+            <p className={`text-sm ${rejectState.success ? "text-emerald-400" : "text-red-400"}`}>
               {rejectState.message}
             </p>
           )}
@@ -137,7 +139,7 @@ function FilePreviewLink({ asset }: { asset: Asset }) {
       type="button"
       onClick={handleView}
       disabled={loading}
-      className="mt-2 flex items-center gap-2 text-sm text-slate-600 underline"
+      className="mt-2 flex items-center gap-2 text-sm text-primary underline underline-offset-2 hover:text-primary/80"
     >
       {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : <FileText className="h-4 w-4" />}
       {asset.file_name}

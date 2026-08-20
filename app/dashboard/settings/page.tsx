@@ -24,9 +24,9 @@ export default async function SettingsPage() {
     .single();
 
   return (
-    <div className="min-h-screen bg-slate-50 p-8">
+    <div className="min-h-screen bg-background p-8">
       <div className="mx-auto max-w-xl">
-        <h1 className="mb-6 text-2xl font-semibold text-slate-900">Company Settings</h1>
+        <h1 className="mb-6 text-2xl font-semibold text-foreground">Company Settings</h1>
 
         <Card>
           <CardHeader>

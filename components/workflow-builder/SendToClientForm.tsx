@@ -20,14 +20,14 @@ export function SendToClientForm({ templateId }: { templateId: string }) {
       </Button>
 
       {state.message && (
-        <p className={`text-sm ${state.success ? "text-green-600" : "text-red-600"}`}>
+        <p className={`text-sm ${state.success ? "text-emerald-400" : "text-red-400"}`}>
           {state.message}
         </p>
       )}
       {state.success && state.portalUrl && (
-        <div className="rounded-md bg-slate-50 p-3 text-sm">
-          <p className="mb-1 text-slate-500">Share this link with your client:</p>
-          <code className="break-all text-slate-900">{state.portalUrl}</code>
+        <div className="rounded-lg border border-border bg-secondary p-3 text-sm">
+          <p className="mb-1 text-muted-foreground">Share this link with your client:</p>
+          <code className="break-all text-foreground">{state.portalUrl}</code>
         </div>
       )}
     </form>

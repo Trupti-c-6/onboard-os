@@ -10,11 +10,6 @@ const STATUS_LABELS: Record<string, string> = {
   stalled: "Stalled",
 };
 
-// Plain GET form, no client-side JS required: submitting re-navigates to
-// /dashboard/reviews?q=...&status=..., which the server page reads via
-// searchParams. Kept this way deliberately — it works even if JS is slow to
-// hydrate, and there's no state here that needs to survive without a
-// server round-trip anyway.
 export function ReviewFilters({
   statusOptions,
   activeStatus,
@@ -26,8 +21,8 @@ export function ReviewFilters({
 }) {
   return (
     <form action="/dashboard/reviews" method="GET" className="mb-4 flex flex-wrap gap-2">
-      <div className="relative flex-1 min-w-[180px]">
-        <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
+      <div className="relative min-w-[180px] flex-1">
+        <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
         <Input
           name="q"
           defaultValue={query}
@@ -39,7 +34,7 @@ export function ReviewFilters({
       <select
         name="status"
         defaultValue={activeStatus}
-        className="h-10 rounded-md border border-slate-200 bg-white px-3 text-sm text-slate-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+        className="h-10 rounded-lg border border-input-border bg-input px-3 text-sm text-foreground focus-visible:outline-none focus-visible:border-primary focus-visible:ring-2 focus-visible:ring-primary/40"
       >
         <option value="pending">{STATUS_LABELS.pending}</option>
         {statusOptions.map((status) => (

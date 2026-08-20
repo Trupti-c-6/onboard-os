@@ -36,11 +36,11 @@ export default async function TemplateDetailPage({
     .order("created_at", { ascending: false });
 
   return (
-    <div className="min-h-screen bg-slate-50 p-8">
+    <div className="min-h-screen bg-background p-8">
       <div className="mx-auto max-w-2xl space-y-6">
         <div>
-          <h1 className="text-2xl font-semibold text-slate-900">{template.title}</h1>
-          {template.description && <p className="text-slate-500">{template.description}</p>}
+          <h1 className="text-2xl font-semibold text-foreground">{template.title}</h1>
+          {template.description && <p className="text-muted-foreground">{template.description}</p>}
         </div>
 
         <Card>
@@ -48,11 +48,11 @@ export default async function TemplateDetailPage({
             <CardTitle>Steps ({steps?.length ?? 0})</CardTitle>
           </CardHeader>
           <CardContent>
-            <ul className="space-y-1 text-sm text-slate-600">
+            <ul className="space-y-1 text-sm text-zinc-300">
               {(steps ?? []).map((s) => (
                 <li key={s.id}>
                   {s.title}{" "}
-                  <span className="text-slate-400">
+                  <span className="text-muted-foreground">
                     — {s.type}
                     {s.is_required ? " · required" : ""}
                   </span>
@@ -80,18 +80,18 @@ export default async function TemplateDetailPage({
           </CardHeader>
           <CardContent>
             {!instances || instances.length === 0 ? (
-              <p className="text-sm text-slate-400">No client links sent yet.</p>
+              <p className="text-sm text-muted-foreground">No client links sent yet.</p>
             ) : (
               <ul className="space-y-2 text-sm">
                 {instances.map((i) => (
                   <li
                     key={i.id}
-                    className="flex items-center justify-between border-b border-slate-100 pb-2"
+                    className="flex items-center justify-between border-b border-border pb-2 last:border-0 last:pb-0"
                   >
-                    <span>
+                    <span className="text-zinc-300">
                       {i.client_name} · {i.client_email}
                     </span>
-                    <span className="rounded-full bg-slate-100 px-2 py-0.5 text-xs capitalize text-slate-600">
+                    <span className="rounded-full border border-border bg-secondary px-2 py-0.5 text-xs capitalize text-muted-foreground">
                       {i.status}
                     </span>
                   </li>

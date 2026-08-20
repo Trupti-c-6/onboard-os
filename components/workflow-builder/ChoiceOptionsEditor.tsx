@@ -23,39 +23,32 @@ export function ChoiceOptionsEditor({
 
   function moveOption(index: number, direction: "up" | "down") {
     const swapWith = direction === "up" ? index - 1 : index + 1;
-
     if (swapWith < 0 || swapWith >= options.length) return;
-
     const next = [...options];
     [next[index], next[swapWith]] = [next[swapWith], next[index]];
-
     onChange(next);
   }
 
   return (
-    <div className="rounded-md border border-slate-200 bg-slate-50 p-3">
-      <p className="mb-2 text-xs font-medium uppercase tracking-wide text-slate-500">
+    <div className="rounded-lg border border-border-subtle bg-secondary p-3">
+      <p className="mb-2 text-xs font-medium uppercase tracking-wide text-muted-foreground">
         Options
       </p>
 
       <div className="space-y-2">
         {options.length === 0 && (
-          <p className="text-sm text-slate-400">
-            No options yet — add at least 2.
-          </p>
+          <p className="text-sm text-muted-foreground">No options yet — add at least 2.</p>
         )}
 
         {options.map((option, index) => (
           <div key={index} className="flex items-center gap-2">
-            <GripVertical className="h-4 w-4 shrink-0 text-slate-300" />
-
+            <GripVertical className="h-4 w-4 shrink-0 text-muted-foreground" />
             <Input
               value={option}
               onChange={(e) => updateOption(index, e.target.value)}
               placeholder={`Option ${index + 1}`}
-              className="flex-1 bg-white"
+              className="flex-1"
             />
-
             <Button
               type="button"
               variant="ghost"
@@ -66,7 +59,6 @@ export function ChoiceOptionsEditor({
             >
               <ArrowUp className="h-3.5 w-3.5" />
             </Button>
-
             <Button
               type="button"
               variant="ghost"
@@ -77,7 +69,6 @@ export function ChoiceOptionsEditor({
             >
               <ArrowDown className="h-3.5 w-3.5" />
             </Button>
-
             <Button
               type="button"
               variant="ghost"
@@ -85,27 +76,19 @@ export function ChoiceOptionsEditor({
               onClick={() => removeOption(index)}
               aria-label="Remove option"
             >
-              <X className="h-3.5 w-3.5 text-red-500" />
+              <X className="h-3.5 w-3.5 text-red-400" />
             </Button>
           </div>
         ))}
       </div>
 
-      <Button
-        type="button"
-        variant="outline"
-        size="sm"
-        onClick={addOption}
-        className="mt-2 gap-1.5"
-      >
+      <Button type="button" variant="outline" size="sm" onClick={addOption} className="mt-2 gap-1.5">
         <Plus className="h-3.5 w-3.5" />
         Add option
       </Button>
 
       {options.length > 0 && options.length < 2 && (
-        <p className="mt-2 text-xs text-amber-600">
-          Add at least one more option before saving.
-        </p>
+        <p className="mt-2 text-xs text-amber-400">Add at least one more option before saving.</p>
       )}
     </div>
   );

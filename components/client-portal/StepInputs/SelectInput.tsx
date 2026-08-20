@@ -12,11 +12,8 @@ export function SelectInput({
   disabled?: boolean;
 }) {
   if (!options || options.length === 0) {
-    // Known gap: Milestone 2's template builder doesn't yet collect option
-    // lists for select-type steps. Until that's added, this step type is
-    // effectively a placeholder — flagged clearly rather than failing silently.
     return (
-      <p className="text-sm text-amber-600">
+      <p className="text-sm text-amber-400">
         No options configured for this step yet.
       </p>
     );
@@ -30,12 +27,13 @@ export function SelectInput({
     return (
       <div className="space-y-2">
         {options.map((opt) => (
-          <label key={opt} className="flex items-center gap-2 text-sm text-slate-700">
+          <label key={opt} className="flex items-center gap-2 text-sm text-zinc-300">
             <input
               type="checkbox"
               checked={selected.includes(opt)}
               disabled={disabled}
               onChange={() => toggle(opt)}
+              className="h-4 w-4 rounded border-input-border bg-input accent-[#7c3aed]"
             />
             {opt}
           </label>
@@ -47,13 +45,14 @@ export function SelectInput({
   return (
     <div className="space-y-2">
       {options.map((opt) => (
-        <label key={opt} className="flex items-center gap-2 text-sm text-slate-700">
+        <label key={opt} className="flex items-center gap-2 text-sm text-zinc-300">
           <input
             type="radio"
             name="select-input"
             checked={value === opt}
             disabled={disabled}
             onChange={() => onChange(opt)}
+            className="h-4 w-4 border-input-border bg-input accent-[#7c3aed]"
           />
           {opt}
         </label>

@@ -22,9 +22,6 @@ function label(status: string) {
   return LABELS[status] ?? status;
 }
 
-// Populated automatically by a DB trigger (see
-// 20260813000000_org_branding_and_history.sql) on every client_instances
-// status change — this component never writes anything, it only reads.
 export function StatusTimeline({ events }: { events: StatusEvent[] }) {
   if (events.length === 0) return null;
 
@@ -36,19 +33,19 @@ export function StatusTimeline({ events }: { events: StatusEvent[] }) {
       <ol className="space-y-3 px-6 pb-6">
         {events.map((event) => (
           <li key={event.id} className="flex items-start gap-3 text-sm">
-            <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-slate-400" />
+            <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-primary" />
             <div>
-              <p className="text-slate-700">
+              <p className="text-zinc-300">
                 {event.from_status ? (
                   <>
-                    {label(event.from_status)} <span className="text-slate-400">→</span>{" "}
+                    {label(event.from_status)} <span className="text-muted-foreground">→</span>{" "}
                     {label(event.to_status)}
                   </>
                 ) : (
                   label(event.to_status)
                 )}
               </p>
-              <p className="text-xs text-slate-400">
+              <p className="text-xs text-muted-foreground">
                 {new Date(event.created_at).toLocaleString(undefined, {
                   dateStyle: "medium",
                   timeStyle: "short",

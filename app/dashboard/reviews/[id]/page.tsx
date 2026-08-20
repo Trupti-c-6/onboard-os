@@ -77,7 +77,7 @@ export default async function ReviewDetailPage({
   });
 
   return (
-    <div className="min-h-screen bg-slate-50 p-8">
+    <div className="min-h-screen bg-background p-8">
       <div className="mx-auto max-w-2xl space-y-6">
         <Card>
           <CardHeader>
@@ -90,7 +90,7 @@ export default async function ReviewDetailPage({
 
         <div className="space-y-3">
           {reviewItems.length === 0 ? (
-            <p className="text-sm text-slate-400">No submissions yet.</p>
+            <p className="text-sm text-muted-foreground">No submissions yet.</p>
           ) : (
             reviewItems.map((item) => (
               <SubmissionReviewCard

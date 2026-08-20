@@ -39,7 +39,7 @@ export function PortalClient({ token, data }: { token: string; data: ValidPortal
   }
 
   return (
-    <div className="min-h-screen bg-slate-50 pb-16">
+    <div className="min-h-screen bg-background pb-16">
       <PortalHeader
         title={data.template.title}
         progress={progress}
