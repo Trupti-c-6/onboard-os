@@ -84,35 +84,38 @@ export async function createClientInstance(
     .eq("id", profile.organization_id)
     .single();
 
-  try {
-    const { subject, html } = clientInvitedEmail(
-      org?.name ?? "your provider",
-      portalUrl
-    );
+  const { subject, html } = clientInvitedEmail(
+    org?.name ?? "your provider",
+    portalUrl
+  );
 
-    // Make every email unique so repeated sends to the same
-    // address are not grouped together by the email client.
-    const uniqueSubject = `${subject} — ${Date.now()}`;
+  // Distinct subject per instance so repeated invites to the same address
+  // are less likely to be grouped confusingly by email clients.
+  const uniqueSubject = `${subject} (${instance.access_token.slice(0, 8)})`;
 
-    const emailResult = await sendEmail(
-      parsed.data.clientEmail,
-      uniqueSubject,
-      html
-    );
+  const emailResult = await sendEmail(
+    parsed.data.clientEmail,
+    uniqueSubject,
+    html
+  );
 
-    if (!emailResult.success) {
-      console.error(
-        "Client invitation email was not sent successfully."
-      );
-    }
-  } catch (err) {
-    // Email failure must not prevent the client link from being created.
-    console.error("Failed to send client invitation email:", err);
+  if (emailResult.success) {
+    return {
+      success: true,
+      message: "Client link created and invitation email sent!",
+      portalUrl,
+    };
   }
+
+  console.error(
+    "Client invitation email was not sent:",
+    emailResult.error ?? "Unknown error"
+  );
 
   return {
     success: true,
-    message: "Client link created and emailed!",
+    message:
+      "Client link created, but the email could not be sent. Share the link below manually.",
     portalUrl,
   };
 }

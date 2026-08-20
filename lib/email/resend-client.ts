@@ -5,32 +5,36 @@ const resend = apiKey ? new Resend(apiKey) : null;
 
 const FROM_ADDRESS = process.env.RESEND_FROM_EMAIL;
 
+export type SendEmailResult = {
+  success: boolean;
+  skipped?: boolean;
+  error?: string;
+};
+
 export async function sendEmail(
   to: string,
   subject: string,
   html: string
-) {
-  // Resend is not configured
+): Promise<SendEmailResult> {
   if (!resend) {
-    console.warn(
-      `[email skipped — no RESEND_API_KEY set] To: ${to} | Subject: ${subject}`
-    );
+    const error = "RESEND_API_KEY is not configured.";
+    console.error(`[email failed] ${error} To: ${to} | Subject: ${subject}`);
 
     return {
       success: false,
       skipped: true,
+      error,
     };
   }
 
-  // Sender address is not configured
   if (!FROM_ADDRESS) {
-    console.error(
-      "[email failed — RESEND_FROM_EMAIL is not configured]"
-    );
+    const error = "RESEND_FROM_EMAIL is not configured.";
+    console.error(`[email failed] ${error} To: ${to} | Subject: ${subject}`);
 
     return {
       success: false,
       skipped: false,
+      error,
     };
   }
 
@@ -43,11 +47,13 @@ export async function sendEmail(
     });
 
     if (result.error) {
-      console.error("Resend send failed:", result.error);
+      const error = result.error.message ?? "Resend rejected the send request.";
+      console.error("Resend send failed:", error);
 
       return {
         success: false,
         skipped: false,
+        error,
       };
     }
 
@@ -60,11 +66,14 @@ export async function sendEmail(
       skipped: false,
     };
   } catch (err) {
-    console.error("Resend send failed:", err);
+    const error =
+      err instanceof Error ? err.message : "Unexpected error while sending email.";
+    console.error("Resend send failed:", error);
 
     return {
       success: false,
       skipped: false,
+      error,
     };
   }
 }
