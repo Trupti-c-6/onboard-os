@@ -20,7 +20,18 @@ describe("escapeHtml", () => {
 
 describe("email templates", () => {
   it("clientInvitedEmail includes the portal link and org name", () => {
-    const { subject, html } = clientInvitedEmail("Acme Consulting", "https://example.com/portal/abc", "Jordan", "Agency onboarding");
+    const { subject, html } = clientInvitedEmail(
+      {
+        clientName: "Jordan",
+        templateName: "Agency onboarding",
+        stepCount: 4,
+        company: {
+          name: "Acme Consulting",
+        },
+      },
+      "https://example.com/portal/abc"
+    );
+
     expect(subject).toContain("Acme Consulting");
     expect(html).toContain("https://example.com/portal/abc");
     expect(html).toContain("Acme Consulting");
@@ -34,6 +45,7 @@ describe("email templates", () => {
       "https://example.com/portal/abc",
       "<b>please redo this</b>"
     );
+
     expect(html).not.toContain("<b>please redo this</b>");
     expect(html).toContain("&lt;b&gt;please redo this&lt;/b&gt;");
   });
@@ -43,6 +55,7 @@ describe("email templates", () => {
       '<img src=x onerror=alert(1)>',
       "https://example.com/portal/abc"
     );
+
     expect(html).not.toContain("<img src=x onerror=alert(1)>");
     expect(html).toContain("&lt;img");
   });
